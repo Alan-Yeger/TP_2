@@ -9,12 +9,16 @@ using namespace std;
 
 class Pokedex {
     public:
+        void mostrar(Pokemon);
 
     private:
-        unordered_map<Pokemon, PokemonInfo> pokedex; //Almacena la info de todos los pokemones que queramos
+        unordered_map<Pokemon, PokemonInfo, PokedexHash> pokedex; //Almacena la info de todos los pokemones que queramos
 
 };
 
-class HashingFunction: public Pokedex {
-
+class PokedexHash {
+    public:
+        size_t operator()(Pokemon& pok) const {
+            return hash<string>()(pok.getNombre());
+        }
 };

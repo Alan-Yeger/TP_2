@@ -8,6 +8,10 @@ class Pokemon {
         string getNombre();
         int getXp();
 
+        bool operator ==(const Pokemon& other) const {
+            return nombre == other.nombre;
+        }
+
     private:
         string nombre;
         int xp;
