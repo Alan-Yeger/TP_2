@@ -7,18 +7,21 @@
 
 using namespace std;
 
+class PokedexHash {
+    public:
+        size_t operator()(const Pokemon& pok) const {
+            return hash<string>()(pok.getNombre());
+        }
+};
+
 class Pokedex {
     public:
-        void mostrar(Pokemon);
+        Pokedex(){}
+        void mostrar(Pokemon) const;
+        void mostrarTodos() const;
+        void agregarPokemon(Pokemon, PokemonInfo);
 
     private:
         unordered_map<Pokemon, PokemonInfo, PokedexHash> pokedex; //Almacena la info de todos los pokemones que queramos
 
-};
-
-class PokedexHash {
-    public:
-        size_t operator()(Pokemon& pok) const {
-            return hash<string>()(pok.getNombre());
-        }
 };
