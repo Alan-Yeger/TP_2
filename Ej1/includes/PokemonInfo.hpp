@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 #include <map>
 #include <array>
 #include <vector>
@@ -15,6 +16,7 @@ class PokemonInfo {
         string getDesc() const;
         pair<string,int> getAtaque(int nivel) const;
         int getNivel(int xp) const;
+        void serializar(ofstream& out) const;
 
     private:
         string tipo; //Indica el tipo del pokemon

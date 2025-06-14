@@ -20,3 +20,21 @@ int PokemonInfo::getNivel(int xp) const {
     }
     return nivel;
 }
+
+void PokemonInfo::serializar(ofstream& out) const {
+    out << tipo << "," << desc << ",";
+    
+    for (int i = 0 ; i < 3; ++i) {
+        out << ataques[i].first << ":" << ataques[i].second;
+        if (i != ataques.size() - 1) out << "|";
+    }
+
+    out << ",";
+
+    for (int i = 0 ; i < 3; ++i) {
+        out << experienciaNivel[i];
+        if (i != ataques.size() - 1) out << "|";
+    }
+
+    out << "\n";
+}

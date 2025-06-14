@@ -30,4 +30,59 @@ void Pokedex::mostrarTodos() const {
 
 void Pokedex::agregarPokemon(Pokemon pok, PokemonInfo info) {
     pokedex[pok] = info;
+
+    if (!arch.empty()) {
+        ofstream out(arch, ios::app);
+        if (out.is_open()) {
+            pok.serializar(out);
+            info.serializar(out);
+        }
+    }
+}
+
+void Pokedex::deserializarCSV(ifstream& in) {
+    string linea;
+    while (getline(in, linea)) {
+        stringstream ss(linea);
+        string nombre, experienciaStr;
+
+        getline(ss, nombre, ',');
+        getline(ss, experienciaStr, ',');
+
+        int experiencia = stoi(experienciaStr);
+
+        Pokemon pok(nombre, experiencia);
+
+        string tipo, desc, ataquesStr, expNivelesStr;
+
+        getline(ss, tipo, ',');
+        getline(ss, desc, ',');
+        getline(ss, ataquesStr, ',');
+        getline(ss, expNivelesStr);
+
+        array<pair<string, int>, 3> ataques;
+        stringstream ataquesStream(ataquesStr);
+        string ataqueInfo;
+        int i = 0;
+        while (getline(ataquesStream, ataqueInfo, '|') && i < 3) {
+            size_t pos = ataqueInfo.find(':');
+            string nombreAtaque = ataqueInfo.substr(0, pos);
+            int daño = stoi(ataqueInfo.substr(pos + 1));
+            ataques[i++] = { nombreAtaque, daño };
+        }
+
+        // Parsear niveles
+        array<int, 3> experienciaNivel;
+        stringstream nivelesStream(expNivelesStr);
+        string nivelStr;
+        i = 0;
+        while (getline(nivelesStream, nivelStr, '|') && i < 3) {
+            experienciaNivel[i++] = stoi(nivelStr);
+        }
+
+        // Crear el objeto
+        PokemonInfo info(tipo, desc, ataques, experienciaNivel);
+
+        pokedex[pok] = info;
+    }
 }

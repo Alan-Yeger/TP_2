@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -15,6 +16,8 @@ class Pokemon {
         bool operator ==(const Pokemon& other) const {
             return nombre == other.nombre;
         }
+        
+        void serializar(ofstream& out) const;
 
     private:
         string nombre;
